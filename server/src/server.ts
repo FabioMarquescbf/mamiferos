@@ -2,10 +2,8 @@ import fastify from "fastify";
 
 const server = fastify();
 
-
-server.get('/', (request, reply) => {
-    return "Servidor On...."
-})
+                   //callback  
+server.get('/', (request, reply) => {return "Servidor On...."});
 
 
 server.listen({ port: 3000 }, (error, address) => {
@@ -13,6 +11,6 @@ server.listen({ port: 3000 }, (error, address) => {
         console.error(error);
         process.exit(1);
     } else {
-        console.log('Servidor rodando na porta 3000}');
+        console.log('Servidor rodando na porta {3000}');
     }
 });
