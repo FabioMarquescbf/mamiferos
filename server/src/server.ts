@@ -1,13 +1,21 @@
 import fastify from "fastify";
+import cors from "@fastify/cors";
 import dotenv from "dotenv";
+import { PrismaClient } from "@prisma/client"
 
 dotenv.config();
+const port: any = process.env.PORT;
+
+const prisma = new PrismaClient();
 const server = fastify();
 
-                   //callback  
+server.register(cors, {
+
+});
+
+
 server.get('/', (request, reply) => {return "Servidor On...."});
 
-const port: any = process.env.PORT;
 
 server.listen({ port: 3000 }, (error, address) => {
     if (error) {
@@ -17,3 +25,22 @@ server.listen({ port: 3000 }, (error, address) => {
         console.log('Servidor rodando na porta {3000}');
     }
 });
+
+interface UserAttrs {
+    email: string,
+    password: string
+}
+
+
+server.post<{ Body: UserAttrs }>('/user', async (request, reply) => {
+    const { email, password } = request.body;
+
+    const newUser = await prisma.user.create({
+        data: {
+            email,
+            password,
+        }
+    });
+
+    return reply.status(201).send(newUser);
+})
